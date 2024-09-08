@@ -27,7 +27,7 @@ services:
       - OWNCLOUD_MYSQL_UTF8MB4=true
       - OWNCLOUD_REDIS_ENABLED=true
       - OWNCLOUD_REDIS_HOST=redis
-      - OWNCLOUD_TRUSTED_DOMAINS=0.0.0.0
+#      - OWNCLOUD_TRUSTED_DOMAINS=0.0.0.0 #Setting this to localhost or looop will lock you out. Set your domain or host ip address.
       - OWNCLOUD_VERSION=latest
     hostname: owncloud
     healthcheck:
