@@ -1,0 +1,116 @@
+name: owncloud
+services:
+  1owncloud:
+    cpu_shares: 90
+    container_name: owncloud_server
+    depends_on:
+      2mariadb:
+        condition: service_started
+        required: true
+      3redis:
+        condition: service_started
+        required: true
+    deploy:
+      resources:
+        limits:
+          memory: 23315M
+    environment:
+      - HTTP_PORT=8080
+      - OWNCLOUD_ADMIN_PASSWORD=admin
+      - OWNCLOUD_ADMIN_USERNAME=admin
+      - OWNCLOUD_DB_HOST=mariadb
+      - OWNCLOUD_DB_NAME=owncloud
+      - OWNCLOUD_DB_PASSWORD=owncloud
+      - OWNCLOUD_DB_TYPE=mysql
+      - OWNCLOUD_DB_USERNAME=owncloud
+      - OWNCLOUD_DOMAIN=http://0.0.0.0:8080
+      - OWNCLOUD_MYSQL_UTF8MB4=true
+      - OWNCLOUD_REDIS_ENABLED=true
+      - OWNCLOUD_REDIS_HOST=redis
+      - OWNCLOUD_TRUSTED_DOMAINS=0.0.0.0
+      - OWNCLOUD_VERSION=latest
+    hostname: owncloud
+    healthcheck:
+      test:
+        - CMD
+        - /usr/bin/healthcheck
+      timeout: 10s
+      interval: 30s
+      retries: 5
+    image: owncloud/server:latest
+    labels:
+      icon: /DATA/AppData/ZimaOS-HD/AppData/owncloud/owncloud.png
+    ports:
+      - target: 8080
+        published: "8080"
+        protocol: tcp
+    restart: always
+    volumes:
+      - type: bind
+        source: /media/Quick-Storage/owncloud
+        target: /mnt/data
+    networks:
+      - 1owncloud
+    privileged: false
+  2mariadb:
+    cpu_shares: 90
+    container_name: owncloud_mariadb
+    deploy:
+      resources:
+        limits:
+          memory: 23315M
+    environment:
+      - MARIADB_AUTO_UPGRADE=1
+      - MYSQL_DATABASE=owncloud
+      - MYSQL_PASSWORD=owncloud
+      - MYSQL_ROOT_PASSWORD=owncloud
+      - MYSQL_USER=owncloud
+      - interval=10s
+      - retries=5
+      - timeout=5s
+    hostname: mariadb
+    image: mariadb:11.2.5-jammy
+    labels:
+      icon: /DATA/AppData/ZimaOS-HD/AppData/owncloud/owncloud.png
+    restart: always
+    volumes:
+      - type: bind
+        source: /DATA/AppData/owncloud/db
+        target: /var/lib/mysql
+    networks:
+      - 1owncloud
+    privileged: false
+  3redis:
+    cpu_shares: 90
+    container_name: owncloud_redis
+    deploy:
+      resources:
+        limits:
+          memory: 23315M
+    hostname: redis
+    image: redis:7.4.0-bookworm
+    labels:
+      icon: /DATA/AppData/ZimaOS-HD/AppData/owncloud/owncloud.png
+    restart: always
+    volumes:
+      - type: bind
+        source: /DATA/AppData/owncloud/redis
+        target: /data
+    networks:
+      - 1owncloud
+    privileged: false
+networks:
+  1owncloud:
+    name: 1owncloud
+x-casaos:
+  author: self
+  category: self
+  hostname: owncloud
+  icon: /DATA/AppData/ZimaOS-HD/AppData/owncloud/owncloud.png
+  index: ""
+  is_uncontrolled: false
+  port_map: "8080"
+  scheme: http
+  store_app_id: Owncloud
+  title:
+    custom: Owncloud
