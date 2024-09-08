@@ -39,7 +39,7 @@ services:
       retries: 5
     image: owncloud/server:latest
     labels:
-      icon: /DATA/AppData/ZimaOS-HD/AppData/owncloud/owncloud.png
+      icon: https://icon-icons.com/downloadimage.php?id=94325&root=1381/PNG/512/&file=owncloud_94325.png
     ports:
       - target: 8080
         published: "8080"
@@ -71,7 +71,7 @@ services:
     hostname: mariadb
     image: mariadb:11.2.5-jammy
     labels:
-      icon: /DATA/AppData/ZimaOS-HD/AppData/owncloud/owncloud.png
+      icon: https://icon-icons.com/downloadimage.php?id=94325&root=1381/PNG/512/&file=owncloud_94325.png
     restart: always
     volumes:
       - type: bind
@@ -90,7 +90,7 @@ services:
     hostname: redis
     image: redis:7.4.0-bookworm
     labels:
-      icon: /DATA/AppData/ZimaOS-HD/AppData/owncloud/owncloud.png
+      icon: https://icon-icons.com/downloadimage.php?id=94325&root=1381/PNG/512/&file=owncloud_94325.png
     restart: always
     volumes:
       - type: bind
@@ -106,7 +106,7 @@ x-casaos:
   author: self
   category: self
   hostname: owncloud
-  icon: /DATA/AppData/ZimaOS-HD/AppData/owncloud/owncloud.png
+  icon: https://icon-icons.com/downloadimage.php?id=94325&root=1381/PNG/512/&file=owncloud_94325.png
   index: ""
   is_uncontrolled: false
   port_map: "8080"
